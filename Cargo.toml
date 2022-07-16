@@ -1,0 +1,32 @@
+[package]
+name = "twgame"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "twgame"
+path = "src/main.rs"
+
+[[test]]
+name = "test_graphics"
+path = "tests/graphics_tests.rs"
+
+[dependencies]
+xml-rs = "0.8"
+minidom = "0.14.0"
+byteorder = "1.4.3"
+array2d = "0.2.1"
+image = "0.24.2"
+mp4 = "0.11.0"
+serde = { version = "1.0", features = ["derive"] }
+bincode = "1.2.1"
+piston = "0.53.0"
+piston2d-graphics = "0.40.0"
+pistoncore-glutin_window = "0.69.0"
+# pistoncore-event_loop = "0.53.1"
+# pistoncore-input = "1.0.1"
+piston2d-opengl_graphics = "0.78.0"
+directories = "4.0.1"
+nfd = "0.0.4"
