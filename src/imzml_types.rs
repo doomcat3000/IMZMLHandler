@@ -79,6 +79,7 @@ pub struct RatioRangeAndRGBImage {
 #[derive(Debug, Clone)]
 pub struct CircularCorrilationImage {
     pub ratioimg: RatioRangeAndRGBImage,
+    pub optionalratiotxtmap: Option<Array2D<(f32, f32)>>,
     pub corcirc1: RatioRangeAndRGBImage,
     pub corcirc2: RatioRangeAndRGBImage,
     pub corcirc3: RatioRangeAndRGBImage,
@@ -98,6 +99,7 @@ impl CircularCorrilationImage {
     /// Construct a new XZVert.
     pub fn new(
         ratioimg: RatioRangeAndRGBImage,
+        optionalratiotxtmap: Option<Array2D<(f32, f32)>>,
         corcirc1: RatioRangeAndRGBImage,
         corcirc2: RatioRangeAndRGBImage,
         corcirc3: RatioRangeAndRGBImage,
@@ -115,6 +117,7 @@ impl CircularCorrilationImage {
     ) -> Self {
         CircularCorrilationImage {
             ratioimg,
+            optionalratiotxtmap,
             corcirc1,
             corcirc2,
             corcirc3,
@@ -259,7 +262,7 @@ impl Molecule {
 pub struct OSpecPeeks {
     pub relativemztominandmax: u32,
     pub intensityrelativetomax: u16,
-    pub slopepermzover10: u16,
+    pub slopepermzover10: u32,
 }
 #[derive(Debug, Clone, Copy)]
 pub struct USpecPeeks {
@@ -272,7 +275,7 @@ impl OSpecPeeks {
     pub fn new(
         relativemztominandmax: u32,
         intensityrelativetomax: u16,
-        slopepermzover10: u16,
+        slopepermzover10: u32,
     ) -> Self {
         OSpecPeeks {
             relativemztominandmax,
