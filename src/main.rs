@@ -20,7 +20,7 @@ use opengl_graphics::*;
 
 use std::*;
 fn main() {
-    //let mut omswriterpath: String = "tempIMZ files/mb.oms".to_string();
+    //let mut omswriterpath: String = "tempIMZ files/the.oms".to_string();
     //
     //                    FOR READING FROM IBD:
     //
@@ -36,31 +36,6 @@ fn main() {
     start();
 }
 // Test Enzymes
-pub fn enzymeimageoutput(optimizedmap: OptimizedMSMap) {
-    let mut vecofval: Vec<f64> = Vec::new();
-    vecofval.push(798.57);
-    vecofval.push(793.06);
-    vecofval.push(820.66);
-    vecofval.push(778.95);
-    vecofval.push(600.97);
-    let mut index1 = 0;
-    let mut vecofenzymes: Vec<Enzyme> = Vec::new();
-    let mut glyph_cache = GlyphCache::new("assets/FiraSans-Regular.ttf", (), TextureSettings::new()).unwrap();
-    while (index1 < vecofval.len() - 1) {
-        let mut index2 = index1 + 1;
-        while (index2 < vecofval.len()) {
-            vecofenzymes.push(Enzyme::new(
-                "Codolase".to_string(),
-                Molecule::new("Moc 1".to_string(), vecofval.get(index1).unwrap().clone()),
-                Molecule::new("Moc 2".to_string(), vecofval.get(index2).unwrap().clone()),
-            ));
-            index2 += 1;
-        }
-        index1 += 1;
-    }
-    let optimmap = enzymespresence(optimizedmap, vecofenzymes, 0.1);
-    circularcorimageoutput(optimmap);
-}
 pub fn circularcorimageoutput(optimizedmap: OptimizedMSMap) {
     let mut vecofranges: Vec<(f64, f64)> = Vec::new();
     vecofranges.push((798.47, 798.67));

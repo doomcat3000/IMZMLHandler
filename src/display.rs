@@ -281,6 +281,8 @@ pub fn start() {
                                 {
                                     let inputtext = gentext(
                                         "List Ranges Formated Like: 'MZmin MZmax, MZmin MZmax,'",
+                                        "",
+                                        false,
                                         &mut graphics,
                                         &mut window,
                                         &mut events,
@@ -390,6 +392,8 @@ pub fn start() {
                                 {
                                     let inputtext = gentext(
                                         "Formated Like: '[MZmin MZmax, MZmin MZmax], [MZmin...'",
+                                        "",
+                                        false,
                                         &mut graphics,
                                         &mut window,
                                         &mut events,
@@ -494,6 +498,117 @@ pub fn start() {
                                                 setsofranges,
                                                 Path::new(&imgdir).to_path_buf(),
                                                 intensityarraybool.unwrap(),
+                                                &mut graphics,
+                                                &mut window,
+                                                &mut events,
+                                            );
+                                            loadingfinishscreen = true;
+                                        }
+                                    }
+                                }
+                                if (((mousex > mid_x * 0.2) && (mousex < mid_x * 1.8))
+                                    && ((mousey > (mid_x * 0.1) + (ofso * 3.))
+                                        && (mousey < (mid_x * 0.1) + (mid_x / 8.) + (ofso * 3.))))
+                                {
+                                    let inputtext = gentext(
+                                        "Function Will Take The Masses Of Sugars An Enzyme Converts From And To",
+                                        "Formated Like: '[StartMZmin MZmax, EndMZmin MZmax], [Start MZmin MZmax...",
+                                        true,
+                                        &mut graphics,
+                                        &mut window,
+                                        &mut events,
+                                    );
+                                    if !(inputtext.is_none()) {
+                                        let result =
+                                            nfd::open_pick_folder(None).unwrap_or_else(|e| {
+                                                panic!(e);
+                                            });
+                                        let mut imgdir: String = "".to_string();
+                                        let mut contin = true;
+                                        match result {
+                                            Response::Okay(file_path) => imgdir = file_path,
+                                            Response::OkayMultiple(files) => {
+                                                imgdir = files[0].clone()
+                                            }
+                                            Response::Cancel => contin = false,
+                                        }
+                                        if (contin) {
+                                            let mut setsofranges: Vec<((f64, f64), (f64, f64))> =
+                                                Vec::new();
+
+                                                let stringinput = inputtext.unwrap().clone();
+                                                let vecs: Vec<&str> =
+                                                    stringinput.split('[').collect();
+                                                let vecslen = vecs.len().clone();
+                                                for string in vecs {
+                                                    let mut tworanges: Vec<&str> =
+                                                        string.split(',').collect();
+                                                    
+                                                    if (tworanges.len() >= 2) {
+                                                        let mut vecscurrent1: Vec<&str> =
+                                                            tworanges[0].split(' ').collect();
+                                                        let mut vecscurrent2helper: Vec<&str> =
+                                                            tworanges[1].split(']').collect();
+                                                        let mut vecscurrent2: Vec<&str> =
+                                                            vecscurrent2helper[0]
+                                                                .split(' ')
+                                                                .collect();
+                                                        let mut itar = 0;
+                                                        while itar < vecscurrent1.len() {
+                                                            if vecscurrent1[itar] == "" {
+                                                                vecscurrent1.remove(itar);
+                                                            } else {
+                                                                itar += 1;
+                                                            }
+                                                        }
+                                                        itar = 0;
+                                                        while itar < vecscurrent2.len() {
+                                                            if vecscurrent2[itar] == "" {
+                                                                vecscurrent2.remove(itar);
+                                                            } else {
+                                                                itar += 1;
+                                                            }
+                                                        }
+                                                        if (vecscurrent1.len() == 2)
+                                                            && (vecscurrent2.len() == 2)
+                                                            && (!(vecscurrent1[0]
+                                                                .parse::<f64>()
+                                                                .is_err()))
+                                                            && (!(vecscurrent1[1]
+                                                                .parse::<f64>()
+                                                                .is_err()))
+                                                            && (!(vecscurrent2[0]
+                                                                .parse::<f64>()
+                                                                .is_err()))
+                                                            && (!(vecscurrent2[1]
+                                                                .parse::<f64>()
+                                                                .is_err()))
+                                                        {
+                                                            setsofranges.push((
+                                                                (
+                                                                    vecscurrent1[0]
+                                                                        .parse::<f64>()
+                                                                        .unwrap(),
+                                                                    vecscurrent1[1]
+                                                                        .parse::<f64>()
+                                                                        .unwrap(),
+                                                                ),
+                                                                (
+                                                                    vecscurrent2[0]
+                                                                        .parse::<f64>()
+                                                                        .unwrap(),
+                                                                    vecscurrent2[1]
+                                                                        .parse::<f64>()
+                                                                        .unwrap(),
+                                                                ),
+                                                            ))
+                                                        }
+                                                    }
+                                                }
+                    
+                                            genenzymepresenceimgs(
+                                                &mapinmemory,
+                                                setsofranges,
                                                 &mut graphics,
                                                 &mut window,
                                                 &mut events,

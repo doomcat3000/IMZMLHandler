@@ -328,6 +328,8 @@ pub fn yesornoquestion(
 }
 pub fn gentext(
     prompt: &str,
+    prompt2: &str,
+    useprompt2: bool,
     mut graphics: &mut GlGraphics,
     window: &mut glutin_window::GlutinWindow,
     events: &mut Events,
@@ -384,6 +386,30 @@ pub fn gentext(
                     c.transform.trans((mid_x * 0.1), (mid_x * 0.1)),
                     gl,
                 );
+                if useprompt2 {
+                rectangle2.draw(
+                    [
+                        0.,
+                        0.,
+                        mid_x * 2. - (mid_x * 0.2),
+                        mid_y * 2. - (mid_x * 0.38),
+                    ],
+                    &Default::default(),
+                    c.transform.trans((mid_x * 0.1), (mid_x * 0.28)),
+                    gl,
+                );
+                rectangle2p.draw(
+                    [
+                        0.,
+                        0.,
+                        mid_x * 2. - (mid_x * 0.2),
+                        mid_y * 2. - (mid_x * 0.38) - (mid_x / 14.),
+                    ],
+                    &Default::default(),
+                    c.transform.trans((mid_x * 0.1), (mid_x * 0.28)),
+                    gl,
+                );
+            }else{
                 rectangle2.draw(
                     [
                         0.,
@@ -406,10 +432,12 @@ pub fn gentext(
                     c.transform.trans((mid_x * 0.1), (mid_x * 0.25)),
                     gl,
                 );
+            }
                 let mut textoutputtemp: String = textoutput.clone();
                 if t {
                     textoutputtemp = textoutputtemp + &"|";
                 }
+                if !useprompt2 {
                 text::Text::new_color([0.0, 0.0, 0.0, 1.0], (mid_x / 25.).ceil() as u32)
                     .draw(
                         prompt,
@@ -420,6 +448,28 @@ pub fn gentext(
                         gl,
                     )
                     .unwrap();
+                }else{
+                    text::Text::new_color([0.0, 0.0, 0.0, 1.0], (mid_x / 33.).ceil() as u32)
+                    .draw(
+                        prompt,
+                        &mut glyph_cache2,
+                        &DrawState::default(),
+                        c.transform
+                            .trans((mid_x * 0.1) + (mid_x / 25.), (mid_x * 0.225)),
+                        gl,
+                    )
+                    .unwrap();
+                    text::Text::new_color([0.0, 0.0, 0.0, 1.0], (mid_x / 33.).ceil() as u32)
+                    .draw(
+                        prompt2,
+                        &mut glyph_cache2,
+                        &DrawState::default(),
+                        c.transform
+                            .trans((mid_x * 0.1) + (mid_x / 25.), (mid_x * 0.225) + (mid_x / 25.)),
+                        gl,
+                    )
+                    .unwrap();
+                }
                 let mut linevec: Vec<String> = Vec::new();
                 let mut charcache: String = "".to_string();
                 for charr in textoutputtemp.chars() {
@@ -455,7 +505,7 @@ pub fn gentext(
                             &DrawState::default(),
                             c.transform.trans(
                                 (mid_x * 0.1) + (mid_x / 25.),
-                                (mid_x * 0.25) + (lineoffset as f64 * (mid_y / 20.)) + mid_y / 25.,
+                                (mid_x * 0.25) + (lineoffset as f64 * (mid_y / 20.)) + mid_y / 25. + (mid_x * 0.03),
                             ),
                             gl,
                         )
